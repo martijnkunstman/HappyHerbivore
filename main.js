@@ -48,6 +48,9 @@ const layers = [
     document.getElementById('bgImage'),
     document.getElementById('bgImage2')
 ];
+const sunburstLayer = document.getElementById('sunburstLayer');
+
+let slideshowStep = 0; // Defines the cycle: Food(0) -> Food(1) -> Sun(2) -> Loop
 
 function startSlideshow(foods) {
     if (!foods || foods.length === 0) return;
@@ -65,6 +68,7 @@ function startSlideshow(foods) {
 
     // Initial State
     currentSlideIndex = 0;
+    slideshowStep = 0;
     const firstImg = `url("./assets/${idleFoods[0]}")`;
 
     // Prepare layer 0
@@ -72,54 +76,52 @@ function startSlideshow(foods) {
     layers[0].classList.add('active');
     layers[0].classList.add('zoom-effect');
 
-    // Ensure layer 1 is hidden
+    // Ensure others are hidden
     layers[1].classList.remove('active');
     layers[1].classList.remove('zoom-effect');
+    sunburstLayer.classList.remove('active');
 
     window.slideshowInterval = setInterval(nextSlide, SLIDE_INTERVAL);
 }
 
 function nextSlide() {
     if (idleFoods.length === 0) return;
+    slideshowStep++;
 
-    const nextLayerIndex = (currentLayer === 0) ? 1 : 0;
-    const nextSlideIndex = (currentSlideIndex + 1) % idleFoods.length;
-    const imgUrl = `url("./assets/${idleFoods[nextSlideIndex]}")`;
+    // Cycle: 0=Food, 1=Food, 2=Sun
+    if (slideshowStep % 3 === 2) {
+        // --- SUNBURST TURN ---
+        sunburstLayer.classList.add('active');
 
-    const activeLayer = layers[currentLayer];
-    const nextLayer = layers[nextLayerIndex];
+        // Hide food layers
+        layers[0].classList.remove('active');
+        layers[1].classList.remove('active');
+    } else {
+        // --- FOOD TURN ---
+        const nextLayerIndex = (currentLayer === 0) ? 1 : 0;
+        currentLayer = nextLayerIndex;
 
-    // 1. Prepare next layer (it's behind the active one, or opacity 0)
-    nextLayer.style.backgroundImage = imgUrl;
+        // Increment food index
+        currentSlideIndex = (currentSlideIndex + 1) % idleFoods.length;
+        const imgUrl = `url("./assets/${idleFoods[currentSlideIndex]}")`;
 
-    // 2. Reset animation on next layer BEFORE showing it
-    nextLayer.classList.remove('zoom-effect');
-    void nextLayer.offsetWidth; // force reflow
-    nextLayer.classList.add('zoom-effect');
+        const nextLayer = layers[nextLayerIndex];
+        const otherLayer = layers[(nextLayerIndex === 0) ? 1 : 0];
 
-    // 3. Crossfade
-    // Bring next layer to full opacity
-    nextLayer.classList.add('active');
+        // Prepare next layer
+        nextLayer.style.backgroundImage = imgUrl;
 
-    // Fade out active layer?
-    // If we just add 'active' to next layer, it sits on top (due to DOM order?) or z-index equal.
-    // We should probably toggle 'active' class nicely.
-    // CSS transition is on opacity.
+        // Reset animation
+        nextLayer.classList.remove('zoom-effect');
+        void nextLayer.offsetWidth; // force reflow
+        nextLayer.classList.add('zoom-effect');
 
-    // Since both are just position absolute:
-    // If we rely on z-index or DOM order: #bgImage2 is after #bgImage.
-    // So bgImage2 on top.
-
-    // Strategy: Always keep opacity 1 on the "new" one, and opacity 0 on the "old" one.
-
-    // Wait for transition to finish? No, just toggle.
-    activeLayer.classList.remove('active');
-
-    // State update
-    currentLayer = nextLayerIndex;
-    currentSlideIndex = nextSlideIndex;
+        // Crossfade
+        nextLayer.classList.add('active');
+        otherLayer.classList.remove('active');
+        sunburstLayer.classList.remove('active');
+    }
 }
-
 
 // --- Fullscreen Logic ---
 const fullscreenBtn = document.getElementById('fullscreenBtn');

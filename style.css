@@ -11,7 +11,9 @@ DarkBlue #053631
     --light-orange: #ffb181;
     --green: #8cd003;
     --light-green: #deff78;
+    --light-green: #deff78;
     --dark-blue: #053631;
+    --yellow: #ffd700;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap');
@@ -167,6 +169,53 @@ body {
     opacity: 0;
     /* Hidden by default */
     animation: blink 8s infinite;
+}
+
+/* Sunburst Styles */
+#sunburstLayer {
+    background-color: var(--light-orange);
+    /* Base bg for sunburst scene */
+    overflow: hidden;
+}
+
+.sunburst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200vmax;
+    /* Ensure it covers screen even when rotating */
+    height: 200vmax;
+    background: repeating-conic-gradient(from 0deg,
+            var(--orange) 0deg 15deg,
+            var(--yellow) 15deg 30deg);
+    animation: rotateSun 20s linear infinite;
+    z-index: 0;
+}
+
+.sun-center {
+    position: absolute;
+    top: 38.2%;
+    /* Match logo golden ratio center */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vmin;
+    /* Adjust size to sit behind logo nicely */
+    height: 60vmin;
+    background-color: var(--orange);
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0 5vmin rgba(255, 117, 32, 0.5);
+}
+
+@keyframes rotateSun {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 @keyframes blink {
