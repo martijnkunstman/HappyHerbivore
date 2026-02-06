@@ -14,10 +14,31 @@ DarkBlue #053631
     --dark-blue: #053631;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap');
+
 body {
     margin: 0;
     padding: 0;
     background-color: var(--dark-blue);
+}
+
+#slogun {
+    width: 100%;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    color: var(--light-orange);
+    font-size: 10vmin;
+    text-align: center;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: italic;
+    filter: drop-shadow(0px 0px 5vmin rgba(0, 0, 0, 1));
+    text-shadow: 0px 0px 5vmin rgba(0, 0, 0, 1);
+    animation: floatSlogan 10s ease-in-out infinite;
 }
 
 #gameContainer {
@@ -26,10 +47,63 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url("./assets/food1.png");
+    position: relative;
+    overflow: hidden;
+    /* Needed for zoom overflow */
+}
+
+/* Shared styles for background layers */
+.bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
     background-size: cover;
     background-position: center;
-    position: relative;
+    opacity: 0;
+    /* Hidden by default */
+    transition: opacity 0.5s ease-in-out;
+    /* Fast fade transition */
+}
+
+/* Active layer is visible */
+.bg-layer.active {
+    opacity: 1;
+}
+
+#bgImage {
+    background-image: url("./assets/food1.png");
+    /* Default fallback */
+}
+
+/* Zoom animation class */
+.zoom-effect {
+    animation: zoomInOut 5s linear forwards;
+}
+
+@keyframes zoomInOut {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+        /* Subtle zoom */
+    }
+}
+
+@keyframes floatSlogan {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%);
+    }
+
+    50% {
+        transform: translate(-50%, calc(-50% - 5vmin));
+    }
 }
 
 #fullscreenBtn {
@@ -45,15 +119,27 @@ body {
 }
 
 #logoContainer {
-    width: 50vw;
-    height: 50vh;
+    position: absolute;
+    top: 25%;
+    /* Golden Ratio (approx) from top */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Center horizontally and adjust vertically */
+    width: 70vmin;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
+    /* Keep above background */
+    pointer-events: none;
+    /* Let clicks pass through if needed */
 }
 
 #logo {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    filter: drop-shadow(0px 0px 5vmin rgba(0, 0, 0, 1));
+    /* Strong black shadow */
 }

@@ -20,6 +20,9 @@ async function fetchConfig() {
         if (currentVersion === null) {
             currentVersion = config.version;
             console.log('Initial config loaded. Version:', currentVersion);
+            if (config.idleFood) {
+                startSlideshow(config.idleFood);
+            }
         } else if (currentVersion !== config.version) {
             console.log(`Version changed from ${currentVersion} to ${config.version}. Reloading...`);
             location.reload();
@@ -34,6 +37,88 @@ fetchConfig();
 
 // Periodic check
 setInterval(fetchConfig, CHECK_INTERVAL);
+
+// --- Slideshow Logic ---
+let idleFoods = [];
+let currentSlideIndex = 0;
+let currentLayer = 0; // 0 for bgImage, 1 for bgImage2
+const SLIDE_INTERVAL = 5000;
+
+const layers = [
+    document.getElementById('bgImage'),
+    document.getElementById('bgImage2')
+];
+
+function startSlideshow(foods) {
+    if (!foods || foods.length === 0) return;
+    idleFoods = foods;
+
+    // Preload ALL images
+    console.log('Preloading images...');
+    idleFoods.forEach(food => {
+        const img = new Image();
+        img.src = `./assets/${food}`;
+    });
+
+    // Start interval
+    if (window.slideshowInterval) clearInterval(window.slideshowInterval);
+
+    // Initial State
+    currentSlideIndex = 0;
+    const firstImg = `url("./assets/${idleFoods[0]}")`;
+
+    // Prepare layer 0
+    layers[0].style.backgroundImage = firstImg;
+    layers[0].classList.add('active');
+    layers[0].classList.add('zoom-effect');
+
+    // Ensure layer 1 is hidden
+    layers[1].classList.remove('active');
+    layers[1].classList.remove('zoom-effect');
+
+    window.slideshowInterval = setInterval(nextSlide, SLIDE_INTERVAL);
+}
+
+function nextSlide() {
+    if (idleFoods.length === 0) return;
+
+    const nextLayerIndex = (currentLayer === 0) ? 1 : 0;
+    const nextSlideIndex = (currentSlideIndex + 1) % idleFoods.length;
+    const imgUrl = `url("./assets/${idleFoods[nextSlideIndex]}")`;
+
+    const activeLayer = layers[currentLayer];
+    const nextLayer = layers[nextLayerIndex];
+
+    // 1. Prepare next layer (it's behind the active one, or opacity 0)
+    nextLayer.style.backgroundImage = imgUrl;
+
+    // 2. Reset animation on next layer BEFORE showing it
+    nextLayer.classList.remove('zoom-effect');
+    void nextLayer.offsetWidth; // force reflow
+    nextLayer.classList.add('zoom-effect');
+
+    // 3. Crossfade
+    // Bring next layer to full opacity
+    nextLayer.classList.add('active');
+
+    // Fade out active layer?
+    // If we just add 'active' to next layer, it sits on top (due to DOM order?) or z-index equal.
+    // We should probably toggle 'active' class nicely.
+    // CSS transition is on opacity.
+
+    // Since both are just position absolute:
+    // If we rely on z-index or DOM order: #bgImage2 is after #bgImage.
+    // So bgImage2 on top.
+
+    // Strategy: Always keep opacity 1 on the "new" one, and opacity 0 on the "old" one.
+
+    // Wait for transition to finish? No, just toggle.
+    activeLayer.classList.remove('active');
+
+    // State update
+    currentLayer = nextLayerIndex;
+    currentSlideIndex = nextSlideIndex;
+}
 
 
 // --- Fullscreen Logic ---
