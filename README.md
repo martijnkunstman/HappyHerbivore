@@ -5,7 +5,7 @@ A dynamic, visually engaging web application featuring smooth slideshows, custom
 ## Features
 
 ### 🎨 Visual & Interactions
-- **Golden Ratio Layout**: The dinosaur logo is positioned at the Golden Ratio (approx. 38.2% from top) for aesthetic balance.
+- **Aesthetic Layout**: The dinosaur logo is prominently positioned for aesthetic balance.
 - **Double-Buffered Slideshow**: Smooth crossfade transitions between food images.
 - **Continuous Zoom**: Images have a subtle, linear zooming animation (`zoomInOut`).
 - **Slogan Animation**: The "Healty in a Hurry" slogan floats gently and features a stylish outlined "copy" effect in green.
