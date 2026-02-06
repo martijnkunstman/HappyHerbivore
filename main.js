@@ -220,3 +220,25 @@ document.addEventListener('click', (e) => {
         taps = []; // Reset
     }
 });
+
+// --- Easter Egg Logic (67) ---
+const easterEgg = document.getElementById('easterEgg');
+const EGG_INTERVAL = 1000 * 67;
+
+function triggerEasterEgg() {
+    // Show one frame
+    easterEgg.style.opacity = '1';
+
+    // Disable transition if any, force repaint
+    // style.css has no transition for #easterEgg so it appears instantly
+
+    // Schedule hide on next frame
+    requestAnimationFrame(() => {
+        // Double RAF to ensure it stays for at least one paint cycle
+        requestAnimationFrame(() => {
+            easterEgg.style.opacity = '0';
+        });
+    });
+}
+
+setInterval(triggerEasterEgg, EGG_INTERVAL);
