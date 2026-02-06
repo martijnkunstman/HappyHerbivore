@@ -92,12 +92,15 @@ function nextSlide() {
     if (slideshowStep % 3 === 2) {
         // --- SUNBURST TURN ---
         sunburstLayer.classList.add('active');
+        document.getElementById('logoContainer').classList.add('centered-logo');
 
         // Hide food layers
         layers[0].classList.remove('active');
         layers[1].classList.remove('active');
     } else {
         // --- FOOD TURN ---
+        document.getElementById('logoContainer').classList.remove('centered-logo');
+
         const nextLayerIndex = (currentLayer === 0) ? 1 : 0;
         currentLayer = nextLayerIndex;
 

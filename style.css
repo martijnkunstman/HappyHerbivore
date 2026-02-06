@@ -11,7 +11,6 @@ DarkBlue #053631
     --light-orange: #ffb181;
     --green: #8cd003;
     --light-green: #deff78;
-    --light-green: #deff78;
     --dark-blue: #053631;
     --yellow: #ffd700;
 }
@@ -31,7 +30,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    color: var(--light-orange);
+    color: var(--light-green);
     font-size: 10vmin;
     text-align: center;
     font-family: "Noto Sans", sans-serif;
@@ -149,6 +148,11 @@ body {
     /* Keep above background */
     pointer-events: none;
     /* Let clicks pass through if needed */
+    transition: top 1s ease-in-out;
+}
+
+#logoContainer.centered-logo {
+    top: 50%;
 }
 
 #logo {
@@ -195,8 +199,8 @@ body {
 
 .sun-center {
     position: absolute;
-    top: 38.2%;
-    /* Match logo golden ratio center */
+    top: 50%;
+    /* Center in screen */
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60vmin;
