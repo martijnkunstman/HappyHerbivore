@@ -37,7 +37,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    color: var(--light-green);
+    color: var(--green);
     font-size: 10vmin;
     text-align: center;
     font-family: "Noto Sans", sans-serif;

@@ -50,7 +50,7 @@ const layers = [
 ];
 const sunburstLayer = document.getElementById('sunburstLayer');
 
-let slideshowStep = 0; // Defines the cycle: Food(0) -> Food(1) -> Sun(2) -> Loop
+let slideshowStep = 0; // Defines the cycle: Food(0) -> Food(1) -> Food(2) -> Sun(3) -> Loop
 
 function startSlideshow(foods) {
     if (!foods || foods.length === 0) return;
@@ -88,8 +88,8 @@ function nextSlide() {
     if (idleFoods.length === 0) return;
     slideshowStep++;
 
-    // Cycle: 0=Food, 1=Food, 2=Sun
-    if (slideshowStep % 3 === 2) {
+    // Cycle: 0=Food, 1=Food, 2=Food, 3=Sun
+    if (slideshowStep % 4 === 3) {
         // --- SUNBURST TURN ---
         sunburstLayer.classList.add('active');
         document.getElementById('logoContainer').classList.add('centered-logo');
