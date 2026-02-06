@@ -1,0 +1,59 @@
+/* 
+Orange #ff7520
+LightOrange #ffb181
+Green #8cd003
+LightGreen #deff78
+DarkBlue #053631 
+*/
+
+:root {
+    --orange: #ff7520;
+    --light-orange: #ffb181;
+    --green: #8cd003;
+    --light-green: #deff78;
+    --dark-blue: #053631;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--dark-blue);
+}
+
+#gameContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("./assets/food1.png");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+#fullscreenBtn {
+    position: absolute;
+    bottom: 2rem;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: var(--orange);
+    border: none;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+#logoContainer {
+    width: 50vw;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
