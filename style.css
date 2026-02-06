@@ -156,3 +156,62 @@ body {
     filter: drop-shadow(0px 0px 5vmin rgba(0, 0, 0, 1));
     /* Strong black shadow */
 }
+
+#logoBlink {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    /* Hidden by default */
+    animation: blink 8s infinite;
+}
+
+@keyframes blink {
+
+    /* Use discrete steps for sharper blink or simple ease for smooth. 
+       A blink is closing eyes (opacity 1) then opening (opacity 0). 
+       Loop: 8 seconds. */
+
+    0%,
+    10% {
+        opacity: 0;
+    }
+
+    /* Single Blink at ~1s */
+    11% {
+        opacity: 1;
+    }
+
+    13% {
+        opacity: 0;
+    }
+
+    /* Wait... */
+    50% {
+        opacity: 0;
+    }
+
+    /* Double Blink start at ~4s */
+    51% {
+        opacity: 1;
+    }
+
+    53% {
+        opacity: 0;
+    }
+
+    55% {
+        opacity: 1;
+    }
+
+    57% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
