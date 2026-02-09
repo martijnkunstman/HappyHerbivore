@@ -285,17 +285,26 @@ body {
    Loop: 8 seconds.
 */
 @keyframes mouthAnim {
+
     0%,
-    29%,
-    31%,
-    69%,
-    71%,
+    26%,
+    34%,
+    66%,
+    74%,
     100% {
         opacity: 0;
     }
 
-    30%,
-    70% {
+    /* 
+       Hold closed for longer (approx 3x previous duration).
+       Previous was a spike at 30% (effectively ~0.16s visibility).
+       Now providing a range to hold it closed.
+       Range: 28% -> 32% (4%) + fading margins.
+    */
+    28%,
+    32%,
+    68%,
+    72% {
         opacity: 1;
     }
 }
